@@ -1,17 +1,29 @@
 import { testDictionary, realDictionary } from './dictionary.js';
+//import {score} from 'src/score.json';
 
 // for testing purposes, make sure to use the test dictionary | за тестови цели не забравяйте да използвате тестовия речник | для тестування обов’язково використовуйте тестовий словник
 console.log('test dictionary:', testDictionary);
 
 const dictionary = realDictionary;
-const state = {
-  secret: dictionary[Math.floor(Math.random() * dictionary.length)],
-  grid: Array(6)
-    .fill()
-    .map(() => Array(5).fill('')),
-  currentRow: 0,
-  currentCol: 0,
-};
+let state;
+
+
+
+// var f = "score.json";
+
+// writeTextFile(f, "Spoon")
+// writeTextFile(f, "Cheese monkey")
+// writeTextFile(f, "Onion")
+
+// function writeTextFile(afilename, output)
+// {
+//   var txtFile =new File(afilename);
+//   txtFile.writeln(output);
+//   txtFile.close();
+// }
+
+
+
 
 function drawGrid(container) {
   const grid = document.createElement('div');
@@ -45,20 +57,27 @@ function drawBox(container, row, col, letter = '') {
   return box;
 }
 
+
+
 function registerKeyboardEvents() {
+  let counter = 1;
   document.body.onkeydown = (e) => {
     const key = e.key;
     if (key === 'Enter') {
       if (state.currentCol === 5) {
         const word = getCurrentWord();
         if (isWordValid(word)) {
-          revealWord(word);
+          const result = revealWord(word);
+          document.getElementById("scoreelem").value = `Shadow Word: ${state.secret} 
+Attempts: ${counter}
+Result: ${result}`;
           state.currentRow++;
+          counter += 1;
           state.currentCol = 0;
         } else {
           alert('Not a valid word.');
         }
-      }
+      } 
     }
     if (key === 'Backspace') {
       removeLetter();
@@ -144,6 +163,7 @@ function revealWord(guess) {
       alert(`Better luck next time! The word was ${state.secret}.`);
     }
   }, 3 * animation_duration);
+  return isWinner ? 'win' : 'loose';
 }
 
 function isLetter(key) {
@@ -162,11 +182,31 @@ function removeLetter() {
   state.currentCol--;
 }
 
-function startup() {
+function startup(isInnit) {
   const game = document.getElementById('game');
-  drawGrid(game);
+  if(isInnit){
+  game.innerHTML = ''
+  // дополнить объект с историей предыдущей игры
+  } 
 
+  console.log(isInnit);
+  drawGrid(game);
+  state = {
+    secret: dictionary[Math.floor(Math.random() * dictionary.length)],
+    grid: Array(6)
+      .fill()
+      .map(() => Array(5).fill('')),
+    currentRow: 0,
+    currentCol: 0,
+  };
+  document.getElementById ("btnrestart").blur()
   registerKeyboardEvents();
 }
 
-startup();
+
+
+startup(false);
+
+document.getElementById ("btnrestart").addEventListener ("click", startup, false);
+
+
