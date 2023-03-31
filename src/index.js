@@ -1,4 +1,5 @@
 import { testDictionary, realDictionary } from './dictionary.js';
+
 //import {score} from 'src/score.json';
 
 // for testing purposes, make sure to use the test dictionary | за тестови цели не забравяйте да използвате тестовия речник | для тестування обов’язково використовуйте тестовий словник
@@ -21,7 +22,6 @@ let state;
 //   txtFile.writeln(output);
 //   txtFile.close();
 // }
-
 
 
 
@@ -71,12 +71,13 @@ function registerKeyboardEvents() {
           document.getElementById("scoreelem").value = `Shadow Word: ${state.secret} 
 Attempts: ${counter}
 Result: ${result}`;
+console.log(state.secret);
           state.currentRow++;
           counter += 1;
           state.currentCol = 0;
         } else {
           alert('Not a valid word.');
-        }
+         }
       } 
     }
     if (key === 'Backspace') {
@@ -120,7 +121,7 @@ function getPositionOfOccurrence(word, letter, position) {
 
 function revealWord(guess) {
   const row = state.currentRow;
-  const animation_duration = 500; // ms
+  const animation_duration = 500; // ms миллисекунды
 
   for (let i = 0; i < 5; i++) {
     const box = document.getElementById(`box${row}${i}`);
@@ -158,9 +159,19 @@ function revealWord(guess) {
 
   setTimeout(() => {
     if (isWinner) {
-      alert('Congratulations!');
+      Swal.fire({
+        title: 'Congratulations!',
+        text:'Your guess the word',
+        icon: 'success',
+    })
     } else if (isGameOver) {
-      alert(`Better luck next time! The word was ${state.secret}.`);
+      //alert(`Better luck next time! The word was ${state.secret}.`);
+      Swal.fire({
+        icon: 'error',
+        title: 'Lose',
+        text: `Better luck next time! The word was - "${state.secret}".`,
+        //footer: '<a href="">Why do I have this issue?</a>'
+      })
     }
   }, 3 * animation_duration);
   return isWinner ? 'win' : 'loose';

@@ -7,13 +7,17 @@
     <meta name="theme-color" content="#121213" />
 
     <link rel="stylesheet" href="./src/style.css" />
-    <link rel="icon" type="image/png" href="assets\favicon.png" />
+    <link rel="icon" type="image/png" href="assets\logo.png" />
     
   </head>
   <body>
     <h1 class="title">Wordle <span class="title-word-clone">български</span></h1>
 
-    <div class="container">
+    <textarea class="textareascore" id="scoreelem" disabled></textarea>
+    
+
+        <div class="container">
+          
     <div class="center">
       <button class="btn" id="btnrestart">
         <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
@@ -21,20 +25,21 @@
           <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
         </svg>
         <span>Restart</span>
+        
       </button>
     </div>
   </div>
-    <textarea class="textareascore" id="scoreelem" disabled></textarea>
 
-
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div id="game"></div>
+    
     
 
 
     <p class="footer">
       
     </p>
+    
     
     
     <script defer src="./src/index.js" type="module"></script>
